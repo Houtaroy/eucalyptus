@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -116,6 +117,21 @@ public interface CodeTemplateGroupApi {
   @Parameter(in = ParameterIn.PATH, name = "id", description = "代码模板组id", schema = @Schema(type = "string"))
   @DeleteMapping("{id}")
   Response delete(@PathVariable("id") String id);
+
+  /**
+   * 生成代码
+   *
+   * @param id          代码模板组id
+   * @param requestBody 代码生成请求体
+   * @return 代码生成结果
+   */
+  @Operation(summary = "根据id删除代码模板组", tags = {"codeTemplateGroup"})
+  @ApiResponse(responseCode = "200", description = "成功",
+    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Response.class))}
+  )
+  @PostMapping("{id}/generate")
+  DataResponse<List<CodeGenerateResult>> generate(@PathVariable("id") String id,
+                                                  @RequestBody CodeGenerateRequestBody requestBody);
 
   class CodeTemplateGroupPageResult extends DataResponse<Page<CodeTemplateGroup>> {
 
