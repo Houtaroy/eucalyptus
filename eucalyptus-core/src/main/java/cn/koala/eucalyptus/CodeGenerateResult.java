@@ -1,0 +1,12 @@
+package cn.koala.eucalyptus;
+
+/**
+ * 代码生成结果类
+ *
+ * @param name 文件名称
+ * @param code 代码内容
+ * @author Houtaroy
+ */
+public record CodeGenerateResult(String name, String code) {
+
+}
