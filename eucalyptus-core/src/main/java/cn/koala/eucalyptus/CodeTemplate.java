@@ -16,9 +16,9 @@ public interface CodeTemplate extends Template {
   String getDescription();
 
   /**
-   * 获取代码模板组
+   * 获取代码模板组id
    *
-   * @return 代码模板组
+   * @return 代码模板组id
    */
-  CodeTemplateGroup getGroup();
+  String getGroupId();
 }

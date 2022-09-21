@@ -13,5 +13,5 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public class PersistentCodeTemplate extends PersistentTemplate implements CodeTemplate {
   protected String description;
-  protected PersistentCodeTemplateGroup group;
+  protected String groupId;
 }
