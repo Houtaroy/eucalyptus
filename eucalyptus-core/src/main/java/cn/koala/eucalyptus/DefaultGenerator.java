@@ -42,7 +42,7 @@ public class DefaultGenerator implements Generator {
    * @param context  生成上下文
    * @return 文件名
    */
-  public String generateName(CodeTemplate template, Map<String, Object> context) {
+  protected String generateName(CodeTemplate template, Map<String, Object> context) {
     try {
       return renderer.render(StringTemplate.builder().content(template.getName()).build(), context);
     } catch (Exception e) {
@@ -58,7 +58,7 @@ public class DefaultGenerator implements Generator {
    * @param context  生成上下文
    * @return 代码
    */
-  public String generateCode(CodeTemplate template, Map<String, Object> context) {
+  protected String generateCode(CodeTemplate template, Map<String, Object> context) {
     try {
       return renderer.render(template, context);
     } catch (Exception e) {

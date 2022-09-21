@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -119,19 +120,32 @@ public interface CodeTemplateGroupApi {
   Response delete(@PathVariable("id") String id);
 
   /**
-   * 生成代码
+   * 预览代码生成结果
    *
-   * @param id          代码模板组id
-   * @param requestBody 代码生成请求体
+   * @param id   代码模板组id
+   * @param body 代码生成请求体
    * @return 代码生成结果
    */
-  @Operation(summary = "根据id删除代码模板组", tags = {"codeTemplateGroup"})
+  @Operation(summary = "预览代码生成结果", tags = {"codeTemplateGroup"})
   @ApiResponse(responseCode = "200", description = "成功",
     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Response.class))}
   )
-  @PostMapping("{id}/generate")
-  DataResponse<List<CodeGenerateResult>> generate(@PathVariable("id") String id,
-                                                  @RequestBody CodeGenerateRequestBody requestBody);
+  @PostMapping("{id}/generate-preview")
+  DataResponse<Map<String, List<GenerateResult>>> preview(
+    @PathVariable("id") String id, @RequestBody GenerateRequestBody body
+  );
+
+  /**
+   * 下载代码生成结果
+   *
+   * @param id       代码模板组id
+   * @param body     代码生成请求体
+   * @param response HttpServletResponse
+   */
+  @Operation(summary = "下载代码生成结果", tags = {"codeTemplateGroup"})
+  @ApiResponse(responseCode = "200", description = "成功")
+  @PostMapping("{id}/generate-download")
+  void download(@PathVariable("id") String id, @RequestBody GenerateRequestBody body, HttpServletResponse response);
 
   class CodeTemplateGroupPageResult extends DataResponse<Page<CodeTemplateGroup>> {
 

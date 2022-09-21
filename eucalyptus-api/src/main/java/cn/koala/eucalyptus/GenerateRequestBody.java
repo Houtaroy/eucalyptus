@@ -4,6 +4,8 @@ import cn.koala.database.JdbcTable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,7 +15,7 @@ import java.util.Map;
  */
 @Data
 @NoArgsConstructor
-public class CodeGenerateRequestBody {
-  private JdbcTable table;
-  private Map<String, Object> config;
+public class GenerateRequestBody {
+  private List<JdbcTable> tables = new ArrayList<>();
+  private Map<String, Object> globalOptions;
 }

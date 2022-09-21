@@ -8,4 +8,5 @@
   <!--<suppress checks="ReturnCount" files="DepartmentServiceImpl.java"/>-->
   <!--<suppress checks=".*" files="SocialJdbcConnectionRepository.java"/>-->
   <suppress checks=".*" files=".*Test\.java"/>
+  <suppress checks=".*" files="Mock.*\.java"/>
 </suppressions>
