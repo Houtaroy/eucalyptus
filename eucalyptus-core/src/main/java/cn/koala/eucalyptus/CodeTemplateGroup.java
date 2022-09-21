@@ -1,7 +1,5 @@
 package cn.koala.eucalyptus;
 
-import cn.koala.datamodel.Metadata;
-
 import java.util.List;
 
 /**
@@ -18,18 +16,18 @@ public interface CodeTemplateGroup {
   String getName();
 
   /**
-   * 获取代码生成器名称
+   * 获取代码生成器标识
    *
-   * @return 代码生成器名称
+   * @return 代码生成器标识
    */
-  String getGeneratorName();
+  String getDomainConverterId();
 
   /**
-   * 获取代码模板组额外配置定义
+   * 获取全局参数定义标识
    *
-   * @return 代码模板组额外配置定义
+   * @return 全局参数定义标识
    */
-  Metadata getConfigDefinition();
+  String getGlobalOptionsDefinitionId();
 
   /**
    * 获取代码模板列表

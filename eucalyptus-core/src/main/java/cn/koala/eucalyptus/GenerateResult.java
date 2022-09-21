@@ -7,6 +7,6 @@ package cn.koala.eucalyptus;
  * @param code 代码内容
  * @author Houtaroy
  */
-public record CodeGenerateResult(String name, String code) {
+public record GenerateResult(String name, String code) {
 
 }

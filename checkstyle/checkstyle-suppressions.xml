@@ -7,4 +7,5 @@
 <suppressions>
   <!--<suppress checks="ReturnCount" files="DepartmentServiceImpl.java"/>-->
   <!--<suppress checks=".*" files="SocialJdbcConnectionRepository.java"/>-->
+  <suppress checks=".*" files=".*Test\.java"/>
 </suppressions>

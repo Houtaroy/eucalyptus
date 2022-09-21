@@ -17,11 +17,6 @@
       <artifactId>commons-beanutils</artifactId>
       <version>1.9.4</version>
     </dependency>
-    <dependency>
-      <groupId>com.jfinal</groupId>
-      <artifactId>enjoy</artifactId>
-      <version>5.0.0</version>
-    </dependency>
 
     <dependency>
       <groupId>cn.koala</groupId>
@@ -39,11 +34,6 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
