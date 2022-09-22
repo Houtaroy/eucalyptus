@@ -16,6 +16,13 @@ public interface CodeTemplateGroup {
   String getName();
 
   /**
+   * 获取代码组模板描述
+   *
+   * @return 代码组模板描述
+   */
+  String getDescription();
+
+  /**
    * 获取代码生成器标识
    *
    * @return 代码生成器标识

@@ -27,6 +27,7 @@ public class DefaultGenerator implements Generator {
     Optional<DomainConverter> converter = domainConverterService.get(group.getDomainConverterId());
     Assert.isTrue(converter.isPresent(), "未找到指定的领域转换器");
     Map<String, Object> context = Map.of(
+      "table", table,
       "domain", converter.get().convert(table),
       "globalOptions", globalOptions
     );
