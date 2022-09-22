@@ -10,8 +10,10 @@
 
   <modules>
     <module>eucalyptus-api</module>
+    <module>eucalyptus-application</module>
     <module>eucalyptus-core</module>
     <module>eucalyptus-mybatis</module>
     <module>eucalyptus-parent</module>
+    <module>eucalyptus-spring-boot-starter</module>
   </modules>
 </project>

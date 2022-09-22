@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="cn.koala.eucalyptus.mybatis.CodeTemplateGroupRepository">
+
+  <resultMap id="codeTemplateGroupResultMap" type="cn.koala.eucalyptus.PersistentCodeTemplateGroup">
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="domainConverterId" column="domain_converter_id"/>
+    <result property="globalOptionsDefinitionId" column="global_options_definition_id"/>
+    <collection property="templates" ofType="cn.koala.eucalyptus.PersistentCodeTemplate">
+      <id property="id" column="template.id"/>
+      <result property="name" column="template.name"/>
+      <result property="description" column="template.description"/>
+      <result property="content" column="template.content"/>
+      <result property="groupId" column="template.groupId"/>
+    </collection>
+  </resultMap>
+
+  <sql id="selectCodeTemplateGroup">
+    select t.id,
+           t.name,
+           t.domain_converter_id,
+           t.global_options_definition_id
+    from t_code_template_group t
+  </sql>
+  <sql id="addTemplates">
+    <foreach item="template" index="index" collection="templates" open="" separator="" close="">
+      insert into t_code_template values (IFNULL(#{template.id}, uuid()), #{template.name}, #{template.description},
+      #{template.content}, #{id});
+    </foreach>
+  </sql>
+  <sql id="deleteTemplates">
+    delete
+    from t_code_template
+    where group_id = #{id};
+  </sql>
+
+  <select id="findAll" resultType="cn.koala.eucalyptus.PersistentCodeTemplateGroup">
+    <include refid="selectCodeTemplateGroup"/>
+    <where>
+      <if test="parameters.name != null and parameters.name != ''">
+        t.name = #{parameters.name}
+      </if>
+    </where>
+  </select>
+  <select id="findById" resultMap="codeTemplateGroupResultMap">
+    select t.id,
+           t.name,
+           t.domain_converter_id,
+           t.global_options_definition_id,
+           ct.id          as "template.id",
+           ct.name        as "template.name",
+           ct.description as "template.description",
+           ct.content     as "template.content",
+           ct.group_id    as "template.group_id"
+    from t_code_template_group t
+           left join t_code_template ct on ct.group_id = t.id
+    where t.id = #{id}
+  </select>
+  <insert id="add" parameterType="cn.koala.eucalyptus.PersistentCodeTemplateGroup">
+    insert into t_code_template_group
+    values (IFNULL(#{id}, uuid()), #{name}, #{domainConverterId}, #{globalOptionsDefinitionId});
+    <include refid="addTemplates"/>
+  </insert>
+  <update id="update" parameterType="cn.koala.eucalyptus.PersistentCodeTemplateGroup">
+    update t_code_template_group
+    set name = #{name},
+    domain_converter_id = #{domainConverterId},
+    global_options_definition_id = #{globalOptionsDefinitionId}
+    where id = #{id};
+    <include refid="deleteTemplates"/>
+    <include refid="addTemplates"/>
+  </update>
+  <delete id="delete" parameterType="cn.koala.eucalyptus.PersistentCodeTemplateGroup">
+    delete
+    from t_code_template_group
+    where id = #{id};
+    <include refid="deleteTemplates"/>
+  </delete>
+</mapper>

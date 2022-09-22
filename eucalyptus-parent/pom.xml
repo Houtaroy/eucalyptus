@@ -33,6 +33,11 @@
         <artifactId>eucalyptus-mybatis</artifactId>
         <version>${revision}</version>
       </dependency>
+      <dependency>
+        <groupId>cn.koala</groupId>
+        <artifactId>eucalyptus-spring-boot-starter</artifactId>
+        <version>${revision}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
