@@ -31,7 +31,7 @@ import java.util.Map;
  *
  * @author Houtaroy
  */
-@RequestMapping("/code-template-groups")
+@RequestMapping("/api/code-template-groups")
 @RestController
 @Tag(name = "codeTemplateGroup", description = "代码模板组接口")
 public interface CodeTemplateGroupApi {
