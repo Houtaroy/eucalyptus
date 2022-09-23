@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * TODO: 修改类描述
+ * WebMvc配置
  *
  * @author Houtaroy
  */
