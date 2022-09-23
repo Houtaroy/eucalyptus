@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 import java.util.List;
 
@@ -19,7 +20,8 @@ import java.util.List;
  * @author Houtaroy
  */
 @Configuration
-@EnableConfigurationProperties(GeneratorProperties.class)
+@EnableConfigurationProperties({GeneratorProperties.class, EucalyptusProperties.class})
+@Import(WebMvcConfig.class)
 @MapperScan(basePackages = "cn.koala.eucalyptus.mybatis")
 public class EucalyptusAutoConfig {
 
@@ -54,9 +56,10 @@ public class EucalyptusAutoConfig {
    */
   @Bean
   @ConditionalOnMissingBean
-  public DomainConverterService domainConverterService(List<DomainConverter> converters) {
+  public DomainConverterService domainConverterService(List<DomainConverter> converters,
+                                                       EucalyptusProperties properties) {
     DomainConverterService result = new InMemoryDomainConverterService();
-    result.add(new EnhancedTableDomainConverter());
+    result.add(new EnhancedTableDomainConverter(properties.isRemoveTablePrefix()));
     converters.forEach(result::add);
     return result;
   }

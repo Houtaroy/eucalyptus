@@ -6,6 +6,7 @@ import cn.koala.database.JdbcTable;
 import cn.koala.database.Table;
 import cn.koala.utils.Naming;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import java.sql.JDBCType;
@@ -19,6 +20,7 @@ import java.util.Map;
  * @author Houtaroy
  */
 @Data
+@RequiredArgsConstructor
 public class EnhancedTableDomainConverter implements DomainConverter {
   public static final Map<String, String> JAVA_TYPE_CONVERTER;
 
@@ -40,7 +42,7 @@ public class EnhancedTableDomainConverter implements DomainConverter {
 
   private String id = "enhanced-table";
   private String name = "增强表领域转换器";
-  private boolean removePrefix = false;
+  private final boolean removePrefix;
 
   @Override
   public Object convert(Table table) {

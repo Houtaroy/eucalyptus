@@ -4,12 +4,12 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * TODO: 修改类描述
+ * 生成器配置
  *
  * @author Houtaroy
  */
-@ConfigurationProperties("eucalyptus.generator")
 @Data
+@ConfigurationProperties("eucalyptus.generator")
 public class GeneratorProperties {
   private String tempPath;
 }

@@ -141,17 +141,28 @@ public interface CodeTemplateGroupApi {
    * @param id       代码模板组id
    * @param body     代码生成请求体
    * @param response HttpServletResponse
+   * @return 下载文件路径
    */
   @Operation(summary = "下载代码生成结果", tags = {"codeTemplateGroup"})
-  @ApiResponse(responseCode = "200", description = "成功")
+  @ApiResponse(responseCode = "200", description = "成功", content = {
+    @Content(
+      mediaType = "application/json",
+      schema = @Schema(implementation = CodeTemplateGroupGenerateDownloadResult.class)
+    )
+  })
   @PostMapping("{id}/generate-download")
-  void download(@PathVariable("id") String id, @RequestBody GenerateRequestBody body, HttpServletResponse response);
+  DataResponse<String> download(@PathVariable("id") String id, @RequestBody GenerateRequestBody body,
+                                HttpServletResponse response);
 
   class CodeTemplateGroupPageResult extends DataResponse<Page<CodeTemplateGroup>> {
 
   }
 
   class CodeTemplateGroupResult extends DataResponse<CodeTemplateGroup> {
+
+  }
+
+  class CodeTemplateGroupGenerateDownloadResult extends DataResponse<String> {
 
   }
 }

@@ -62,3 +62,7 @@ logging:
     cn.koala: debug
   file:
     name: eucalyptus.log
+
+eucalyptus:
+  generator:
+    temp-path: D:\\Temp\\eucalyptus\\

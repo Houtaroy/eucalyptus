@@ -198,7 +198,7 @@ public class #(domain.naming.pascal().singular())Service {
 #end
 }
 ', 'simple-java'),
-       ('simple-java-repository', '#(domain.naming.pascal().singular())Repository.java', '存储库类', 'package #(config.package);
+       ('simple-java-repository', '#(domain.naming.pascal().singular())Repository.java', '存储库类', 'package #(globalOptions.package);
 
 import org.apache.ibatis.annotations.Param;
 
@@ -257,7 +257,7 @@ public interface #(domain.naming.pascal().singular())Repository {
        ('simple-java-mapper', '#(domain.naming.pascal().singular())Mapper.xml', 'Mapper文件', '<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="#(config.package).#(domain.naming.pascal().singular())Repository">
+<mapper namespace="#(globalOptions.package).#(domain.naming.pascal().singular())Repository">
   <sql id="select#(domain.naming.pascal().singular())">
     select
 #for(column : table.columns)
@@ -266,7 +266,7 @@ public interface #(domain.naming.pascal().singular())Repository {
     from #(table.name) t
   </sql>
 
-  <select id="findAll" resultType="#(config.package).#(domain.naming.pascal().singular())Entity">
+  <select id="findAll" resultType="#(globalOptions.package).#(domain.naming.pascal().singular())Entity">
     <include refid="select#(domain.naming.pascal().singular())"/>
     <where>
 #for(column : domain.enhancedColumns)
@@ -277,25 +277,25 @@ public interface #(domain.naming.pascal().singular())Repository {
     </where>
   </select>
 #if(domain.primaryKey != null)
-  <select id="findBy#(domain.primaryKey.name.pascal().singular())" resultType="#(config.package).#(domain.naming.pascal().singular())Entity">
+  <select id="findBy#(domain.primaryKey.name.pascal().singular())" resultType="#(globalOptions.package).#(domain.naming.pascal().singular())Entity">
     <include refid="select#(domain.naming.pascal().singular())"/>
     where t.#(domain.primaryKey.name) = #{#(domain.primaryKey.naming.camel().singular())}
   </select>
-  <insert id="add" parameterType="#(config.package).#(domain.naming.pascal().singular())Entity">
+  <insert id="add" parameterType="#(globalOptions.package).#(domain.naming.pascal().singular())Entity">
     insert into #(table.name) values (
 #for(column : domain.enhancedColumns)
     #{#(column.naming.camel().singular())}#if(!for.last),#end
 #end
     )
   </insert>
-  <update id="update" parameterType="#(config.package).#(domain.naming.pascal().singular())Entity">
+  <update id="update" parameterType="#(globalOptions.package).#(domain.naming.pascal().singular())Entity">
     update #(table.name)
 #for(column : domain.enhancedColumns)
     set #(column.name) = #{#(column.naming.camel().singular())}#if(!for.last),#end
 #end
     where #(domain.primaryKey.name) = #{#(domain.primaryKey.naming.camel().singular())}
   </update>
-  <update id="delete" parameterType="#(config.package).#(domain.naming.pascal().singular())Entity">
+  <update id="delete" parameterType="#(globalOptions.package).#(domain.naming.pascal().singular())Entity">
     delete from #(table.name) where #(domain.primaryKey.name) = #{#(domain.primaryKey.naming.camel().singular())}
   </update>
 #end

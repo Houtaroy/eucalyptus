@@ -11,8 +11,7 @@ import org.junit.jupiter.api.Test;
 public class DomainConverterTest {
   @Test
   public void test() {
-    EnhancedTableDomainConverter converter = new EnhancedTableDomainConverter();
-    converter.setRemovePrefix(true);
+    EnhancedTableDomainConverter converter = new EnhancedTableDomainConverter(true);
     EnhancedTable enhancedTable = (EnhancedTable) converter.convert(DataHelperTest.table());
     Assertions.assertEquals(enhancedTable.getNaming().pascal().plural(), "Goods");
     Assertions.assertEquals(enhancedTable.getPrimaryKey().getName(), "id");

@@ -17,8 +17,7 @@ public class GeneratorTest {
   @Test
   public void test() {
     DomainConverterService converterService = new InMemoryDomainConverterService();
-    EnhancedTableDomainConverter converter = new EnhancedTableDomainConverter();
-    converter.setRemovePrefix(true);
+    EnhancedTableDomainConverter converter = new EnhancedTableDomainConverter(true);
     converterService.add(converter);
     Generator generator = new DefaultGenerator(converterService, new EnjoyRenderer(Engine.use()));
     List<GenerateResult> results = generator.generate(DataHelperTest.group(), DataHelperTest.table(), Map.of());

@@ -9,11 +9,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -77,10 +79,11 @@ public class CodeTemplateGroupApiImpl implements CodeTemplateGroupApi {
   }
 
   @Override
-  public void download(String id, GenerateRequestBody body, HttpServletResponse response) {
+  public DataResponse<String> download(String id, GenerateRequestBody body, HttpServletResponse response) {
     CodeTemplateGroup group = service.load(id).orElseThrow(() -> new IllegalArgumentException("代码模板组不存在"));
     Assert.notEmpty(body.getTables(), "没有要生成的数据库表");
-    String dirPath = generatorProperties.getTempPath() + File.separator + UUID.randomUUID();
+    String tempPath = UUID.randomUUID().toString();
+    String dirPath = generatorProperties.getTempPath() + File.separator + tempPath;
     for (JdbcTable table : body.getTables()) {
       String tableDirPath = dirPath + File.separator + table.getName();
       List<GenerateResult> results = generator.generate(group, table, body.getGlobalOptions());
@@ -97,10 +100,12 @@ public class CodeTemplateGroupApiImpl implements CodeTemplateGroupApi {
     File[] files = dir.listFiles();
     Assert.notNull(files, "没有代码文件生成");
     Assert.notEmpty(files, "没有代码文件生成");
+    String zipFilename = dirPath + File.separator + group.getName() + ".zip";
     try {
-      ZipHelper.zip(Arrays.asList(files), group.getName(), response);
+      ZipHelper.zip(Arrays.asList(files), new FileOutputStream(zipFilename));
+      return DataResponse.of(HttpStatus.OK.value(), "请求成功", "%s/%s.zip".formatted(tempPath, group.getName()));
     } catch (IOException e) {
-      LOGGER.error("代码文件压缩下载失败", e);
+      LOGGER.error("压缩文件生成失败", e);
       throw new RuntimeException("代码文件生成失败");
     }
   }
