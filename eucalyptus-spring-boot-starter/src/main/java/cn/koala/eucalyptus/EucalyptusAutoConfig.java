@@ -91,4 +91,16 @@ public class EucalyptusAutoConfig {
                                                    Generator generator, GeneratorProperties generatorProperties) {
     return new CodeTemplateGroupApiImpl(codeTemplateGroupService, generator, generatorProperties);
   }
+
+  /**
+   * 领域转换器接口的bean
+   *
+   * @param domainConverterService 领域转换器服务对象
+   * @return 领域转换器接口对象
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  public DomainConverterApi domainConverterApi(DomainConverterService domainConverterService) {
+    return new DomainConverterApiImpl(domainConverterService);
+  }
 }

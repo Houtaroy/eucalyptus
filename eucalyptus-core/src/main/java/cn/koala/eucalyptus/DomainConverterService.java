@@ -1,5 +1,6 @@
 package cn.koala.eucalyptus;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -8,6 +9,14 @@ import java.util.Optional;
  * @author Houtaroy
  */
 public interface DomainConverterService {
+
+  /**
+   * 获取领域转换器列表
+   *
+   * @return 领域转换器列表
+   */
+  List<DomainConverter> getConverters();
+
   /**
    * 获取领域转换器
    *

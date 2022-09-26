@@ -3,6 +3,7 @@ package cn.koala.eucalyptus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,6 +17,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class InMemoryDomainConverterService implements DomainConverterService {
 
   protected final Map<String, DomainConverter> cache = new ConcurrentHashMap<>();
+
+  @Override
+  public List<DomainConverter> getConverters() {
+    return cache.values().stream().toList();
+  }
 
   @Override
   public Optional<DomainConverter> get(String id) {
