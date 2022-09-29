@@ -1,5 +1,8 @@
 package cn.koala.eucalyptus;
 
+import cn.koala.datamodel.PropertyEntity;
+import cn.koala.datamodel.PropertyType;
+import cn.koala.template.TemplateEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -21,12 +24,14 @@ public class CodeTemplateGroupServiceTest {
   @Test
   @Order(1)
   public void add() {
-    service.add(PersistentCodeTemplateGroup.builder()
+    service.add(CodeTemplateGroupEntity.builder()
       .id("test")
       .name("测试模板")
+      .description("测试模板")
       .domainConverterId("enhanced-table")
+      .properties(List.of(PropertyEntity.builder().name("包名").code("package").type(PropertyType.STRING).build()))
       .templates(List.of(
-        PersistentCodeTemplate.builder().name("Entity.java").description("实体类").content("实体类").build()
+        TemplateEntity.builder().name("Entity.java").content("实体类").build()
       ))
       .build());
   }
@@ -34,13 +39,15 @@ public class CodeTemplateGroupServiceTest {
   @Test
   @Order(2)
   public void update() {
-    service.update(PersistentCodeTemplateGroup.builder()
+    service.update(CodeTemplateGroupEntity.builder()
       .id("test")
       .name("更新测试模板")
+      .description("更新测试模板")
       .domainConverterId("enhanced-table")
+      .properties(List.of(PropertyEntity.builder().name("包名").code("package").type(PropertyType.STRING).build()))
       .templates(List.of(
-        PersistentCodeTemplate.builder().name("Entity.java").description("实体类").content("实体类").build(),
-        PersistentCodeTemplate.builder().name("Api.java").description("接口").content("接口类").build()
+        TemplateEntity.builder().name("Entity.java").content("实体类").build(),
+        TemplateEntity.builder().name("Api.java").content("接口类").build()
       ))
       .build());
   }
@@ -64,6 +71,6 @@ public class CodeTemplateGroupServiceTest {
   @Test
   @Order(5)
   public void delete() {
-    service.delete(PersistentCodeTemplateGroup.builder().id("test").build());
+    service.delete(CodeTemplateGroupEntity.builder().id("test").build());
   }
 }

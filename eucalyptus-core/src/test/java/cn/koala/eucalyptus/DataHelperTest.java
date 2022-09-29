@@ -3,6 +3,7 @@ package cn.koala.eucalyptus;
 import cn.koala.database.JdbcColumn;
 import cn.koala.database.JdbcTable;
 import cn.koala.database.Table;
+import cn.koala.template.TemplateEntity;
 
 import java.sql.JDBCType;
 import java.util.List;
@@ -27,10 +28,10 @@ public class DataHelperTest {
   }
 
   public static CodeTemplateGroup group() {
-    return PersistentCodeTemplateGroup.builder()
+    return CodeTemplateGroupEntity.builder()
       .domainConverterId("enhanced-table")
       .templates(List.of(
-        PersistentCodeTemplate.builder().name("#(domain.naming.pascal().singular())Entity.java").content("#(domain.remarks)实体类").build()
+        TemplateEntity.builder().name("#(domain.naming.pascal().singular())Entity.java").content("#(domain.remarks)实体类").build()
       ))
       .build();
   }

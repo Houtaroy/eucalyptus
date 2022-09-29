@@ -4,33 +4,25 @@
 <!-- namespace必须指向Dao接口 -->
 <mapper namespace="cn.koala.eucalyptus.mybatis.CodeTemplateGroupRepository">
 
-  <resultMap id="codeTemplateGroupResultMap" type="cn.koala.eucalyptus.PersistentCodeTemplateGroup">
-    <id property="id" column="id"/>
-    <result property="name" column="name"/>
-    <result property="description" column="description"/>
+  <resultMap id="codeTemplateGroupResultMap" type="cn.koala.eucalyptus.CodeTemplateGroupEntity"
+             extends="cn.koala.datamodel.mybatis.MetadataRepository.metaData">
     <result property="domainConverterId" column="domain_converter_id"/>
-    <result property="globalOptionsDefinitionId" column="global_options_definition_id"/>
-    <collection property="templates" ofType="cn.koala.eucalyptus.PersistentCodeTemplate">
+    <collection property="templates" ofType="cn.koala.template.TemplateEntity">
       <id property="id" column="template.id"/>
       <result property="name" column="template.name"/>
-      <result property="description" column="template.description"/>
       <result property="content" column="template.content"/>
-      <result property="groupId" column="template.groupId"/>
     </collection>
   </resultMap>
 
   <sql id="selectCodeTemplateGroup">
     select t.id,
            t.name,
-           t.description,
-           t.domain_converter_id,
-           t.global_options_definition_id
+           t.description
     from t_code_template_group t
   </sql>
   <sql id="addTemplates">
     <foreach item="template" index="index" collection="templates" open="" separator="" close="">
-      insert into t_code_template values (IFNULL(#{template.id}, uuid()), #{template.name}, #{template.description},
-      #{template.content}, #{id});
+      insert into t_code_template values (IFNULL(#{template.id}, uuid()), #{template.name}, #{template.content}, #{id});
     </foreach>
   </sql>
   <sql id="deleteTemplates">
@@ -39,7 +31,7 @@
     where group_id = #{id};
   </sql>
 
-  <select id="findAll" resultType="cn.koala.eucalyptus.PersistentCodeTemplateGroup">
+  <select id="findAll" resultType="cn.koala.eucalyptus.CodeTemplateGroupEntity">
     <include refid="selectCodeTemplateGroup"/>
     <where>
       <if test="parameters.name != null and parameters.name != ''">
@@ -52,35 +44,42 @@
            t.name,
            t.description,
            t.domain_converter_id,
-           t.global_options_definition_id,
-           ct.id          as "template.id",
-           ct.name        as "template.name",
-           ct.description as "template.description",
-           ct.content     as "template.content",
-           ct.group_id    as "template.group_id"
+           p.id          as "property.id",
+           p.code        as "property.code",
+           p.name        as "property.name",
+           p.description as "property.description",
+           p.type        as "property.type",
+           ct.id         as "template.id",
+           ct.name       as "template.name",
+           ct.content    as "template.content",
+           ct.group_id   as "template.group_id"
     from t_code_template_group t
+           left join t_property p on p.metadata_id = t.id
            left join t_code_template ct on ct.group_id = t.id
     where t.id = #{id}
   </select>
-  <insert id="add" parameterType="cn.koala.eucalyptus.PersistentCodeTemplateGroup">
+  <insert id="add" parameterType="cn.koala.eucalyptus.CodeTemplateGroupEntity">
     insert into t_code_template_group
-    values (IFNULL(#{id}, uuid()), #{name}, #{description}, #{domainConverterId}, #{globalOptionsDefinitionId});
+    values (IFNULL(#{id}, uuid()), #{name}, #{description}, #{domainConverterId});
+    <include refid="cn.koala.datamodel.mybatis.MetadataRepository.addProperties"/>
     <include refid="addTemplates"/>
   </insert>
-  <update id="update" parameterType="cn.koala.eucalyptus.PersistentCodeTemplateGroup">
+  <update id="update" parameterType="cn.koala.eucalyptus.CodeTemplateGroupEntity">
     update t_code_template_group
     set name = #{name},
     description = #{description},
-    domain_converter_id = #{domainConverterId},
-    global_options_definition_id = #{globalOptionsDefinitionId}
+    domain_converter_id = #{domainConverterId}
     where id = #{id};
+    <include refid="cn.koala.datamodel.mybatis.MetadataRepository.deleteProperties"/>
+    <include refid="cn.koala.datamodel.mybatis.MetadataRepository.addProperties"/>
     <include refid="deleteTemplates"/>
     <include refid="addTemplates"/>
   </update>
-  <delete id="delete" parameterType="cn.koala.eucalyptus.PersistentCodeTemplateGroup">
+  <delete id="delete" parameterType="cn.koala.eucalyptus.CodeTemplateGroupEntity">
     delete
     from t_code_template_group
     where id = #{id};
+    <include refid="cn.koala.datamodel.mybatis.MetadataRepository.deleteProperties"/>
     <include refid="deleteTemplates"/>
   </delete>
 </mapper>

@@ -48,13 +48,13 @@ public class CodeTemplateGroupApiImpl implements CodeTemplateGroupApi {
   }
 
   @Override
-  public DataResponse<CodeTemplateGroup> create(PersistentCodeTemplateGroup entity) {
+  public DataResponse<CodeTemplateGroup> create(CodeTemplateGroupEntity entity) {
     service.add(entity);
     return DataResponse.ok(entity);
   }
 
   @Override
-  public Response update(String id, PersistentCodeTemplateGroup entity) {
+  public Response update(String id, CodeTemplateGroupEntity entity) {
     entity.setId(id);
     service.update(entity);
     return Response.SUCCESS;
@@ -62,7 +62,7 @@ public class CodeTemplateGroupApiImpl implements CodeTemplateGroupApi {
 
   @Override
   public Response delete(String id) {
-    service.delete(PersistentCodeTemplateGroup.builder().id(id).build());
+    service.delete(CodeTemplateGroupEntity.builder().id(id).build());
     return Response.SUCCESS;
   }
 

@@ -1,8 +1,8 @@
 insert into t_code_template_group
 values ('simple-java', '简易Java模板', '基于Spring Boot, MyBatis的简易Java模板, 生成从接口到Mapper的全部代码',
-        'enhanced-table', 'simple-java-global-options');
+        'enhanced-table');
 insert into t_code_template
-values ('simple-java-api', '#(domain.naming.pascal().singular())Api.java', '接口类', 'package #(globalOptions.package);
+values ('simple-java-api', '#(domain.naming.pascal().singular())Api.java', 'package #(globalOptions.package);
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -77,7 +77,7 @@ public interface #(domain.naming.pascal().singular())Api {
 #end
 }
 ', 'simple-java'),
-       ('simple-java-api-impl', '#(domain.naming.pascal().singular())ApiImpl.java', '接口实现类', 'package #(globalOptions.package);
+       ('simple-java-api-impl', '#(domain.naming.pascal().singular())ApiImpl.java', 'package #(globalOptions.package);
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -129,7 +129,7 @@ public class #(domain.naming.pascal().singular())ApiImpl implements #(domain.nam
 #end
 }
 ', 'simple-java'),
-       ('simple-java-entity', '#(domain.naming.pascal().singular())Entity.java', '实体类', 'package #(globalOptions.package);
+       ('simple-java-entity', '#(domain.naming.pascal().singular())Entity.java', 'package #(globalOptions.package);
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -149,7 +149,7 @@ public class #(domain.naming.pascal().singular())Entity {
 #end
 }
 ', 'simple-java'),
-       ('simple-java-service', '#(domain.naming.pascal().singular())Service.java', '服务类', 'package #(globalOptions.package);
+       ('simple-java-service', '#(domain.naming.pascal().singular())Service.java', 'package #(globalOptions.package);
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -198,7 +198,7 @@ public class #(domain.naming.pascal().singular())Service {
 #end
 }
 ', 'simple-java'),
-       ('simple-java-repository', '#(domain.naming.pascal().singular())Repository.java', '存储库类', 'package #(globalOptions.package);
+       ('simple-java-repository', '#(domain.naming.pascal().singular())Repository.java', 'package #(globalOptions.package);
 
 import org.apache.ibatis.annotations.Param;
 
@@ -254,7 +254,7 @@ public interface #(domain.naming.pascal().singular())Repository {
 #end
 }
 ', 'simple-java'),
-       ('simple-java-mapper', '#(domain.naming.pascal().singular())Mapper.xml', 'Mapper文件', '<?xml version="1.0" encoding="UTF-8" ?>
+       ('simple-java-mapper', '#(domain.naming.pascal().singular())Mapper.xml', '<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="#(globalOptions.package).#(domain.naming.pascal().singular())Repository">
@@ -301,7 +301,5 @@ public interface #(domain.naming.pascal().singular())Repository {
 #end
 </mapper>
 ', 'simple-java');
-insert into t_metadata
-values ('simple-java-global-options', 'simple-java-global-options', '简易Java模板全局参数', '简易Java模板全局参数');
 insert into t_property
-values ('simple-java-global-options-package', 'package', '包名', '包名', 3, 'simple-java-global-options');
+values ('simple-java-global-options-package', 'package', '包名', '包名', 3, 'simple-java');

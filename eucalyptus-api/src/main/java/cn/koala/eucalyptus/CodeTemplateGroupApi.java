@@ -88,7 +88,7 @@ public interface CodeTemplateGroupApi {
     }
   )
   @PostMapping
-  DataResponse<CodeTemplateGroup> create(@RequestBody PersistentCodeTemplateGroup entity);
+  DataResponse<CodeTemplateGroup> create(@RequestBody CodeTemplateGroupEntity entity);
 
   /**
    * 更新代码模板组
@@ -103,7 +103,7 @@ public interface CodeTemplateGroupApi {
   )
   @Parameter(in = ParameterIn.PATH, name = "id", description = "代码模板组id", schema = @Schema(type = "string"))
   @PutMapping("{id}")
-  Response update(@PathVariable("id") String id, @RequestBody PersistentCodeTemplateGroup entity);
+  Response update(@PathVariable("id") String id, @RequestBody CodeTemplateGroupEntity entity);
 
   /**
    * 根据id删除代码模板组

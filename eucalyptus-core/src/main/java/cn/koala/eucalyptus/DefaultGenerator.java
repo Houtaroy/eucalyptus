@@ -3,6 +3,7 @@ package cn.koala.eucalyptus;
 import cn.koala.database.Table;
 import cn.koala.template.Renderer;
 import cn.koala.template.StringTemplate;
+import cn.koala.template.Template;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
@@ -43,7 +44,7 @@ public class DefaultGenerator implements Generator {
    * @param context  生成上下文
    * @return 文件名
    */
-  protected String generateName(CodeTemplate template, Map<String, Object> context) {
+  protected String generateName(Template template, Map<String, Object> context) {
     try {
       return renderer.render(StringTemplate.builder().content(template.getName()).build(), context);
     } catch (Exception e) {
@@ -59,7 +60,7 @@ public class DefaultGenerator implements Generator {
    * @param context  生成上下文
    * @return 代码
    */
-  protected String generateCode(CodeTemplate template, Map<String, Object> context) {
+  protected String generateCode(Template template, Map<String, Object> context) {
     try {
       return renderer.render(template, context);
     } catch (Exception e) {
