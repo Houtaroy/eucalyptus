@@ -59,8 +59,11 @@
     where t.id = #{id}
   </select>
   <insert id="add" parameterType="cn.koala.eucalyptus.CodeTemplateGroupEntity">
+    <selectKey resultType="string" order="BEFORE" keyProperty="id">
+      select ifnull(#{id},uuid())
+    </selectKey>
     insert into t_code_template_group
-    values (IFNULL(#{id}, uuid()), #{name}, #{description}, #{domainConverterId});
+    values (#{id}, #{name}, #{description}, #{domainConverterId});
     <include refid="cn.koala.datamodel.mybatis.MetadataRepository.addProperties"/>
     <include refid="addTemplates"/>
   </insert>
