@@ -116,7 +116,7 @@ public class #(domain.naming.pascal().singular())ApiImpl implements #(domain.nam
 
   @Override
   public String update(#(domain.primaryKey.javaType) #(domain.primaryKey.naming.camel().singular()), #(domain.naming.pascal().singular())Entity entity) {
-    entity.set#(domain.primaryKey.name.pascal().singular())(#(domain.primaryKey.naming.camel().singular()));
+    entity.set#(domain.primaryKey.naming.pascal().singular())(#(domain.primaryKey.naming.camel().singular()));
     service.update(entity);
     return "success";
   }
@@ -181,7 +181,7 @@ public class #(domain.naming.pascal().singular())Service {
 #if(domain.primaryKey != null)
 
   public Optional<#(domain.naming.pascal().singular())Entity> load(#(domain.primaryKey.javaType) #(domain.primaryKey.naming.camel().singular())) {
-    return repository.findBy#(domain.primaryKey.name.pascal().singular())(#(domain.primaryKey.naming.camel().singular()));
+    return repository.findBy#(domain.primaryKey.naming.pascal().singular())(#(domain.primaryKey.naming.camel().singular()));
   }
 
   public void add(#(domain.naming.pascal().singular())Entity entity) {
@@ -229,7 +229,7 @@ public interface #(domain.naming.pascal().singular())Repository {
    * @param #(domain.primaryKey.naming.camel().singular()) #(domain.primaryKey.remarks)
    * @return #(domain.remarks)
    */
-  Optional<#(domain.naming.pascal().singular())Entity> findBy#(domain.primaryKey.name.pascal().singular())(#(domain.primaryKey.javaType) #(domain.primaryKey.naming.camel().singular()));
+  Optional<#(domain.naming.pascal().singular())Entity> findBy#(domain.primaryKey.naming.pascal().singular())(#(domain.primaryKey.javaType) #(domain.primaryKey.naming.camel().singular()));
 
   /**
    * 新增#(domain.remarks)
@@ -277,7 +277,7 @@ public interface #(domain.naming.pascal().singular())Repository {
     </where>
   </select>
 #if(domain.primaryKey != null)
-  <select id="findBy#(domain.primaryKey.name.pascal().singular())" resultType="#(globalOptions.package).#(domain.naming.pascal().singular())Entity">
+  <select id="findBy#(domain.primaryKey.naming.pascal().singular())" resultType="#(globalOptions.package).#(domain.naming.pascal().singular())Entity">
     <include refid="select#(domain.naming.pascal().singular())"/>
     where t.#(domain.primaryKey.name) = #{#(domain.primaryKey.naming.camel().singular())}
   </select>
