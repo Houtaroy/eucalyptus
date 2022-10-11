@@ -13,9 +13,6 @@
     <relativePath/>
   </parent>
 
-  <properties>
-  </properties>
-
   <dependencyManagement>
     <dependencies>
       <dependency>

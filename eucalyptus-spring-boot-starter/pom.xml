@@ -44,4 +44,19 @@
       <artifactId>eucalyptus-mybatis</artifactId>
     </dependency>
   </dependencies>
+
+
+  <developers>
+    <developer>
+      <name>koala</name>
+      <email>koala_projects@yeah.net</email>
+    </developer>
+  </developers>
+
+  <distributionManagement>
+    <repository>
+      <id>Local</id>
+      <url>file:D:/Document/maven-repositories</url>
+    </repository>
+  </distributionManagement>
 </project>
