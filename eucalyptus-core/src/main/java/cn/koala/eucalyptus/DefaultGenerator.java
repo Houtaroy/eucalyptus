@@ -1,16 +1,13 @@
 package cn.koala.eucalyptus;
 
-import cn.koala.database.Table;
 import cn.koala.template.Renderer;
 import cn.koala.template.StringTemplate;
 import cn.koala.template.Template;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * 默认代码生成器实现
@@ -20,18 +17,10 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class DefaultGenerator implements Generator {
-  protected final DomainConverterService domainConverterService;
   protected final Renderer renderer;
 
   @Override
-  public List<GenerateResult> generate(CodeTemplateGroup group, Table table, Map<String, Object> globalOptions) {
-    Optional<DomainConverter> converter = domainConverterService.get(group.getDomainConverterId());
-    Assert.isTrue(converter.isPresent(), "未找到指定的领域转换器");
-    Map<String, Object> context = Map.of(
-      "table", table,
-      "domain", converter.get().convert(table),
-      "globalOptions", globalOptions
-    );
+  public List<GenerateResult> generate(CodeTemplateGroup group, Map<String, Object> context) {
     return group.getTemplates().stream()
       .map(template -> new GenerateResult(generateName(template, context), generateCode(template, context)))
       .toList();

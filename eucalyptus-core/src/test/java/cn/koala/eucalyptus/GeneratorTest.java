@@ -19,8 +19,8 @@ public class GeneratorTest {
     DomainConverterService converterService = new InMemoryDomainConverterService();
     EnhancedTableDomainConverter converter = new EnhancedTableDomainConverter(true);
     converterService.add(converter);
-    Generator generator = new DefaultGenerator(converterService, new EnjoyRenderer(Engine.use()));
-    List<GenerateResult> results = generator.generate(DataHelperTest.group(), DataHelperTest.table(), Map.of());
+    Generator generator = new DefaultGenerator(new EnjoyRenderer(Engine.use()));
+    List<GenerateResult> results = generator.generate(DataHelperTest.group(), Map.of("table", DataHelperTest.table()));
     Assertions.assertEquals(results.size(), 1);
     Assertions.assertEquals(results.get(0).name(), "GoodEntity.java");
     Assertions.assertEquals(results.get(0).code(), "商品实体类");

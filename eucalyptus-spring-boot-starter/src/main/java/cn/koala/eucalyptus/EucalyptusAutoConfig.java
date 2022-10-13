@@ -3,7 +3,6 @@ package cn.koala.eucalyptus;
 import cn.koala.eucalyptus.mybatis.CodeTemplateGroupRepository;
 import cn.koala.eucalyptus.mybatis.MyBatisCodeTemplateGroupService;
 import cn.koala.template.EnjoyRenderer;
-import cn.koala.template.Renderer;
 import com.jfinal.template.Engine;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -24,17 +23,6 @@ import java.util.List;
 @Import(WebMvcConfig.class)
 @MapperScan(basePackages = "cn.koala.eucalyptus.mybatis")
 public class EucalyptusAutoConfig {
-
-  /**
-   * 模板渲染器的bean
-   *
-   * @return 模板渲染器对象
-   */
-  @Bean
-  @ConditionalOnMissingBean
-  public Renderer renderer() {
-    return new EnjoyRenderer(Engine.create("_koala"));
-  }
 
   /**
    * 代码模板组服务的bean
@@ -67,14 +55,12 @@ public class EucalyptusAutoConfig {
   /**
    * 代码生成器的bean
    *
-   * @param domainConverterService 领域转换器服务对象
-   * @param renderer               模板渲染器对象
    * @return 代码生成器对象
    */
   @Bean
   @ConditionalOnMissingBean
-  public Generator generator(DomainConverterService domainConverterService, Renderer renderer) {
-    return new DefaultGenerator(domainConverterService, renderer);
+  public Generator generator() {
+    return new DefaultGenerator(new EnjoyRenderer(Engine.create("_koala")));
   }
 
   /**
@@ -88,8 +74,11 @@ public class EucalyptusAutoConfig {
   @Bean
   @ConditionalOnMissingBean
   public CodeTemplateGroupApi codeTemplateGroupApi(CodeTemplateGroupService codeTemplateGroupService,
+                                                   DomainConverterService domainConverterService,
                                                    Generator generator, GeneratorProperties generatorProperties) {
-    return new CodeTemplateGroupApiImpl(codeTemplateGroupService, generator, generatorProperties);
+    return new CodeTemplateGroupApiImpl(
+      codeTemplateGroupService, domainConverterService, generator, generatorProperties
+    );
   }
 
   /**

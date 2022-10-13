@@ -1,6 +1,7 @@
 package cn.koala.eucalyptus;
 
 import cn.koala.database.JdbcTable;
+import cn.koala.database.Table;
 import cn.koala.utils.ZipHelper;
 import cn.koala.web.DataResponse;
 import cn.koala.web.Response;
@@ -22,6 +23,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -34,6 +36,7 @@ import java.util.UUID;
 public class CodeTemplateGroupApiImpl implements CodeTemplateGroupApi {
 
   private final CodeTemplateGroupService service;
+  private final DomainConverterService domainConverterService;
   private final Generator generator;
   private final GeneratorProperties generatorProperties;
 
@@ -74,7 +77,9 @@ public class CodeTemplateGroupApiImpl implements CodeTemplateGroupApi {
       tables.add(MockData.MOCK_TABLE);
     }
     Map<String, List<GenerateResult>> result = new HashMap<>(tables.size());
-    tables.forEach(table -> result.put(table.getName(), generator.generate(group, table, body.getGlobalOptions())));
+    tables.forEach(
+      table -> result.put(table.getName(), generate(group, table, body.getGlobalOptions()))
+    );
     return DataResponse.ok(result);
   }
 
@@ -86,7 +91,7 @@ public class CodeTemplateGroupApiImpl implements CodeTemplateGroupApi {
     String dirPath = generatorProperties.getTempPath() + File.separator + tempPath;
     for (JdbcTable table : body.getTables()) {
       String tableDirPath = dirPath + File.separator + table.getName();
-      List<GenerateResult> results = generator.generate(group, table, body.getGlobalOptions());
+      List<GenerateResult> results = generate(group, table, body.getGlobalOptions());
       for (GenerateResult result : results) {
         File file = new File(tableDirPath + File.separator + result.name());
         try {
@@ -108,5 +113,16 @@ public class CodeTemplateGroupApiImpl implements CodeTemplateGroupApi {
       LOGGER.error("压缩文件生成失败", e);
       throw new RuntimeException("代码文件生成失败");
     }
+  }
+
+  protected List<GenerateResult> generate(CodeTemplateGroup group, Table table, Map<String, Object> globalOptions) {
+    Optional<DomainConverter> converter = domainConverterService.get(group.getDomainConverterId());
+    Assert.isTrue(converter.isPresent(), "未找到指定的领域转换器");
+    Map<String, Object> context = Map.of(
+      "table", table,
+      "domain", converter.get().convert(table),
+      "globalOptions", globalOptions
+    );
+    return generator.generate(group, context);
   }
 }
