@@ -61,7 +61,7 @@ logging:
   level:
     cn.koala: debug
   file:
-    name: eucalyptus.log
+    name: logs/eucalyptus.log
 
 eucalyptus:
   generator:

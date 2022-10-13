@@ -115,6 +115,14 @@ public class CodeTemplateGroupApiImpl implements CodeTemplateGroupApi {
     }
   }
 
+  /**
+   * 生成代码
+   *
+   * @param group         代码模板组
+   * @param table         数据库表
+   * @param globalOptions 全局参数
+   * @return 生成结果列表
+   */
   protected List<GenerateResult> generate(CodeTemplateGroup group, Table table, Map<String, Object> globalOptions) {
     Optional<DomainConverter> converter = domainConverterService.get(group.getDomainConverterId());
     Assert.isTrue(converter.isPresent(), "未找到指定的领域转换器");
